@@ -13,4 +13,5 @@ import lombok.experimental.FieldDefaults;
 public class UserDTO {
     String nombre;
     String deporte;
+    int level;
 }

@@ -32,9 +32,9 @@ public class UserController {
     );
 
     List<UserDTO> usuariosDeportes = List.of(
-        new UserDTO(users.get(0).getName() + " " + users.get(0).getLastname(), deportes.get(0).getName()),
-        new UserDTO(users.get(1).getName() + " " + users.get(1).getLastname(), deportes.get(1).getName()),
-        new UserDTO(users.get(2).getName() + " " + users.get(2).getLastname(), deportes.get(2).getName())
+        new UserDTO(users.get(0).getName() + " " + users.get(0).getLastname(), deportes.get(0).getName(), deportes.get(0).getLevel()),
+        new UserDTO(users.get(1).getName() + " " + users.get(1).getLastname(), deportes.get(1).getName(), deportes.get(1).getLevel()),
+        new UserDTO(users.get(2).getName() + " " + users.get(2).getLastname(), deportes.get(2).getName(), deportes.get(2).getLevel())
     );
 
     @GetMapping("/findSport/{name}")
@@ -54,6 +54,15 @@ public class UserController {
     @GetMapping("/findSportsPersons")
     public ResponseEntity<List<UserDTO>> findSportsPersons() {
         return new ResponseEntity<>(this.usuariosDeportes,HttpStatus.OK);
+    }
+
+    @GetMapping("/findSportsPersons/{namePerson}")
+    public ResponseEntity<UserDTO> getAthlete(@PathVariable String namePerson) {
+        Optional<UserDTO> athFinded = this.usuariosDeportes.stream()
+                                                        .filter(ath -> ath.getNombre().toLowerCase().equals(namePerson.toLowerCase()))
+                                                        .findFirst();
+        UserDTO athlete = athFinded.isPresent() ? athFinded.get() : new UserDTO();                                                
+        return new ResponseEntity<>(athlete, HttpStatus.OK);
     }
     
     
